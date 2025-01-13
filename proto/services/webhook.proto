@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package exmsg.services;
+
+option go_package = "github.com/nhdms/base-go/proto/exmsg/services;services";
+
+import "models/webhook.proto";
+import "models/common.proto";
+
+service WebhookService {
+  rpc InsertLogs (exmsg.models.WebhookEvents) returns (exmsg.models.SQLResult);
+}

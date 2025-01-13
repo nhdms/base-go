@@ -1,0 +1,9 @@
+{
+  "app_type": "api",
+  "cmd_bin_dir": "cmd/apis/user-api",
+  "service_name": "users",
+  "port": 30000,
+  "config_remote_keys": [
+    "apis/user.toml"
+  ]
+}

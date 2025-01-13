@@ -1,0 +1,11 @@
+{
+  "app_type": "consumer",
+  "cmd_bin_dir": "cmd/consumers/webhook-consumer",
+  "service_name": "webhook",
+  "port": 0,
+  "config_remote_keys": [
+    "database/redis.toml",
+    "database/rabbitmq.toml",
+    "consumers/webhook-consumer.toml"
+  ]
+}

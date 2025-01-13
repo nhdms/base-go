@@ -1,0 +1,8 @@
+{
+  "app_type": "app",
+  "cmd_bin_dir": "cmd/tests",
+  "service_name": "test",
+  "port": 0,
+  "config_remote_keys": [
+  ]
+}

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package exmsg.models;
+
+option go_package = "github.com/nhdms/base-go/proto/exmsg/models;models";
+
+enum CommonStatus {
+  DEACTIVATED = 0;
+  ACTIVATED = 1;
+}
+
+message Query {
+  uint64 limit = 1;
+  uint64 page = 2;
+  string filter = 3;
+  repeated string sort_by = 4;
+  bool descending = 5;
+}
+
+message SQLResult {
+  repeated int64 last_insert_ids = 1;
+  int64 rows_affected = 2;
+}

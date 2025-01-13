@@ -1,0 +1,11 @@
+{
+  "app_type": "service",
+  "cmd_bin_dir": "cmd/services/webhook-service",
+  "service_name": "webhook",
+  "port": 31005,
+  "config_remote_keys": [
+    "database/postgres.toml",
+    "database/redis.toml",
+    "services/webhook_service.toml"
+  ]
+}

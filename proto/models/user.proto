@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package exmsg.models;
+
+option go_package = "github.com/nhdms/base-go/proto/exmsg/models;models";
+import "google/protobuf/timestamp.proto";
+
+
+message User {
+  google.protobuf.Timestamp created_at = 1;
+  google.protobuf.Timestamp updated_at = 2;
+  int64 id = 3;
+  string name = 4;
+  string email = 5;
+  string password = 6;
+  string phone = 7;
+  string avatar = 8;
+  int64 deleted_at = 9;
+  int64 status = 10;
+  string pancake_id = 11;
+  int64 type = 12;
+  int64 company_id = 13;
+  int64 role_id = 14;
+  repeated string countries = 15;
+  repeated string warehouses = 16;
+  string display_id = 17;
+  repeated string industry = 18;
+  repeated string saleChannel = 19;
+  string shop_name = 20;
+  int64 updated_by = 21;
+  string reset = 22; // JSON field represented as a string
+  string reg_position = 23;
+  string address = 24;
+  bool is_online = 25;
+  repeated int64 category_ids = 26;
+  string note = 27;
+  int64 client_type = 28;
+  int64 last_updated_password = 29;
+  string session_id = 30;
+}
+
+message UserProfile {
+  int64 id = 1;                 // Primary key
+  int64 created_at = 2;         // Created timestamp (Unix time in seconds)
+  int64 updated_at = 3;         // Updated timestamp (Unix time in seconds)
+  int64 user_id = 4;            // Foreign key to users table
+  int64 department_id = 5;      // Foreign key to departments table
+  int32 status = 6;             // Status (e.g., active/inactive)
+  int64 data_set_id = 7;        // Foreign key to data sets table
+  int64 role_id = 8;            // Foreign key to roles table
+  int32 type = 9;               // Type (small integer)
+  int64 updated_by = 10;        // ID of the user who last updated the record
+}

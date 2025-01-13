@@ -1,0 +1,11 @@
+{
+  "app_type": "service",
+  "cmd_bin_dir": "cmd/services/user-service",
+  "service_name": "user",
+  "port": 31000,
+  "config_remote_keys": [
+    "database/postgres.toml",
+    "database/redis.toml",
+    "services/user_service.toml"
+  ]
+}

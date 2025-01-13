@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package exmsg.services;
+
+option go_package = "github.com/nhdms/base-go/proto/exmsg/services;services";
+
+import "models/user.proto";
+import "models/common.proto";
+
+service UserService {
+  rpc GetUserByID (UserRequest) returns (UserResponse);
+}
+
+message UserRequest {
+  int64 user_id = 1;
+}
+
+message ProfileRequest {
+  int64 user_id = 1;
+  exmsg.models.Query query = 2;
+  int64 status = 4;
+  repeated int64 department_ids = 5;
+  repeated int64 ancestor_department_ids = 6;
+}
+
+message UserResponse {
+  exmsg.models.User user = 1;
+  bool cache_hit = 2;
+}

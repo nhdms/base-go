@@ -1,0 +1,10 @@
+{
+  "app_type": "api",
+  "cmd_bin_dir": "cmd/apis/api-gateway",
+  "service_name": "gateway",
+  "port": 8080,
+  "config_remote_keys": [
+    "apis/gateway.toml",
+    "database/redis.toml"
+  ]
+}

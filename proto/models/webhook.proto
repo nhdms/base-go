@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package exmsg.models;
+
+option go_package = "github.com/nhdms/base-go/proto/exmsg/models;models";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+message WebhookEvent {
+  int64 id = 1;
+  string kind = 2;
+  google.protobuf.Struct payload = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  google.protobuf.Struct meta = 6;
+  string message_uuid = 7;
+  bool is_retry = 8;
+}
+
+message WebhookEvents {
+  repeated WebhookEvent events = 1;
+}

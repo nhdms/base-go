@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package exmsg.models;
+
+option go_package = "github.com/nhdms/base-go/proto/exmsg/models;models";
+
+//    UserID      int64     `json:"u"`
+//    Permissions []int64   `json:"p"`
+//    DataSets    []DataSet `json:"d"`
+//    SubUserIds  []int64   `json:"s_ids"`
+//    Signature   string    `json:"s"`
+message JWTDataSet {
+  int64 project_id = 1;
+  int64 country_id = 2;
+}
+
+message JWTClaim {
+  int64 user_id = 1;
+  repeated int64 permissions = 2;
+  repeated JWTDataSet data_sets = 3;
+  repeated int64 sub_user_ids = 4;
+  string signature = 5;
+}

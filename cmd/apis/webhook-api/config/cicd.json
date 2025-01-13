@@ -1,0 +1,11 @@
+{
+  "app_type": "api",
+  "cmd_bin_dir": "cmd/apis/webhook-api",
+  "service_name": "webhooks",
+  "port": 30005,
+  "config_remote_keys": [
+    "database/redis.toml",
+    "database/rabbitmq.toml",
+    "apis/webhook-api/config.toml"
+  ]
+}

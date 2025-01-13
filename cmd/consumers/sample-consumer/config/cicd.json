@@ -1,0 +1,11 @@
+{
+  "app_type": "consumer",
+  "cmd_bin_dir": "cmd/consumers/sample-consumer",
+  "service_name": "sample_consumer",
+  "port": 0,
+  "config_remote_keys": [
+    "database/redis.toml",
+    "database/rabbitmq.toml",
+    "consumers/sample-consumer.toml"
+  ]
+}
