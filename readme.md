@@ -103,6 +103,30 @@ Or you can use Docker for testing and deploying the application.
 - Install Redis for caching and storing session data.
 - Install Posgres for database.
 
+### 2. Generate services using atcli
+- Install atcli tools
+```shell
+go install pkg/toolkit/atcli.go
+```
+- Generate api using atcli
+```shell
+atcli generate api <api-name>
+# example:
+# atcli generate api user-api
+```
+- Generate consumer using atcli
+```shell
+atcli generate consumer <consumer-name>
+# example:
+# atcli generate consumer sample-consumer
+```
+- Generate grpc service using atcli
+```shell
+atcli generate service <service-name>
+# example:
+# atcli generate service sample-service
+```
+
 #### 2. Docker for Testing and Deploying
 
 - Run docker-compose to set up the infrastructure by using command:
