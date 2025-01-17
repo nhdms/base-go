@@ -58,7 +58,7 @@ func InitRoutes(svc web.Service, routes Routes, path string) {
 		chain = chain.Append(route.Middlewares...)
 		// Return the final handler with all middlewares applied
 		handler := chain.Then(route.Handler)
-		router.Handle(route.Pattern, handler)
+		router.Handle(route.Pattern, handler).Methods(route.Method)
 	}
 	svc.Handle("/health-check", new(healthCheckHandler))
 	svc.Handle("/", router)

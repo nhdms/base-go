@@ -1,0 +1,10 @@
+{
+  "app_type": "api",
+  "cmd_bin_dir": "cmd/apis/tracking-api",
+  "service_name": "tracking",
+  "port": 30000,
+  "config_remote_keys": [
+    "database/rabbitmq.toml",
+    "apis/tracking/config.toml"
+  ]
+}

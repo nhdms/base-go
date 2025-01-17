@@ -96,6 +96,8 @@ func LoadInitConfig() *common.ServiceConfig {
 	// Load remote config if service type is specified
 	err := conf.Validate()
 	if err != nil {
+		log.Println("Seems like you are missing config path to cicd.json file\n Please run with CONFIG_PATH=./config go run main.go \n" +
+			"or change working directory to folder that contains main.go")
 		log.Fatalf("Invalid service config: %v", err)
 	}
 

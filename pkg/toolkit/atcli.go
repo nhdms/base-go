@@ -55,21 +55,7 @@ func main() {
 								return fmt.Errorf("name is required")
 							}
 							fmt.Printf("Generating API service: %s\n", name)
-							// Add logic to generate API service here
-							return nil
-						},
-					},
-					{
-						Name:  "service",
-						Usage: "Generate gRPC service",
-						Action: func(c *cli.Context) error {
-							name := c.Args().First()
-							if name == "" {
-								return fmt.Errorf("name is required")
-							}
-							fmt.Printf("Generating gRPC service: %s\n", name)
-							// Add logic to generate gRPC service here
-							return nil
+							return generator.GenerateAPI(name)
 						},
 					},
 					{
@@ -81,8 +67,7 @@ func main() {
 								return fmt.Errorf("name is required")
 							}
 							fmt.Printf("Generating consumer: %s\n", name)
-							// Add logic to generate consumer here
-							return nil
+							return generator.GenerateConsumer(name)
 						},
 					},
 					{
