@@ -64,3 +64,10 @@ func CreateWebhookClient(conn client.Client) services.WebhookService {
 	}
 	return services.NewWebhookService(app.GetGRPCServiceName(common.ServiceNameWebhook), conn)
 }
+
+func CreateEventClient(conn client.Client) services.EventService {
+	if conn == nil {
+		conn = createGRPCClient()
+	}
+	return services.NewEventService(app.GetGRPCServiceName(common.ServiceNameEvent), conn)
+}

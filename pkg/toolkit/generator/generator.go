@@ -12,12 +12,13 @@ import (
 )
 
 type GeneratorData struct {
-	Name        string
-	Handler     string
-	ServiceName string
-	QueueName   string
-	TableName   string
-	Port        int
+	Name         string
+	Handler      string
+	ServiceName  string
+	QueueName    string
+	TableName    string
+	Port         int
+	HandlerLower string
 }
 
 func generateFile(tmpl string, data GeneratorData, outputPath string) error {
@@ -80,19 +81,41 @@ func GenerateAPI(name string) error {
 	return nil
 }
 
-func GenerateConsumer(name string) error {
-	basePath := fmt.Sprintf("cmd/consumers/%s", name)
-	handler := strings.Title(strings.TrimSuffix(name, "-consumer"))
+// Replace with:
+func GenerateService(name string) error {
+	basePath := fmt.Sprintf("cmd/services/%s", name)
+	handler := strings.Title(strings.TrimSuffix(name, "-service"))
+	serviceName := strings.TrimSuffix(name, "-service")
 
 	data := GeneratorData{
-		Name:        name,
-		Handler:     handler,
-		ServiceName: strings.Replace(name, "-consumer", "", 1),
+		Name:         name,
+		Handler:      handler,
+		ServiceName:  serviceName,
+		TableName:    strings.Replace(name, "-service", "_events", 1),
+		Port:         40000,
+		HandlerLower: strings.ToLower(handler),
 	}
 
+	// Generate proto files
+	protoFiles := map[string]string{
+		fmt.Sprintf("proto/models/%s.proto", serviceName):   templates.ModelProtoTemplate,
+		fmt.Sprintf("proto/services/%s.proto", serviceName): templates.ServiceProtoTemplate,
+	}
+
+	// Generate service files
 	files := map[string]string{
-		fmt.Sprintf("%s/main.go", basePath):             templates.ConsumerMainTemplate,
-		fmt.Sprintf("%s/handlers/handler.go", basePath): templates.ConsumerHandlerTemplate,
+		fmt.Sprintf("%s/main.go", basePath):                  templates.ServiceMainTemplate,
+		fmt.Sprintf("%s/handlers/handler.go", basePath):      templates.ServiceHandlerTemplate,
+		fmt.Sprintf("%s/handlers/handler_test.go", basePath): templates.ServiceHandlerTestTemplate,
+		fmt.Sprintf("%s/tables/table.go", basePath):          templates.ServiceTableTemplate,
+		fmt.Sprintf("%s/config/cicd.json", basePath):         templates.ServiceCICDTemplate,
+	}
+
+	// Generate all files
+	for path, tmpl := range protoFiles {
+		if err := generateFile(tmpl, data, path); err != nil {
+			return err
+		}
 	}
 
 	for path, tmpl := range files {
@@ -101,5 +124,41 @@ func GenerateConsumer(name string) error {
 		}
 	}
 
+	logger.AthenaLogger.Infof("Service %s generated successfully\nExploring at %s", name, basePath)
+	logger.AthenaLogger.Infof("Please add common function GetGRPCServiceClient() at internal/grpc.go")
+	logger.AthenaLogger.Infof("And function define service name at pkg/common/service_name.go")
+	logger.AthenaLogger.Infof("\natcli gen proto proto/models/%s.proto\natcli gen proto proto/services/%s.proto", name, name)
+	logger.AthenaLogger.Info("Run these command to generate proto file")
+	return nil
+}
+
+func GenerateConsumer(name string) error {
+	basePath := fmt.Sprintf("cmd/consumers/%s", name)
+	handler := strings.Title(strings.TrimSuffix(name, "-consumer"))
+	serviceName := strings.TrimSuffix(name, "-consumer")
+
+	data := GeneratorData{
+		Name:        name,
+		Handler:     handler,
+		ServiceName: serviceName,
+	}
+
+	files := map[string]string{
+		fmt.Sprintf("%s/main.go", basePath):             templates.ConsumerMainTemplate,
+		fmt.Sprintf("%s/handlers/handler.go", basePath): templates.ConsumerHandlerTemplate,
+		fmt.Sprintf("%s/config/cicd.json", basePath):    templates.ConsumerCICDTemplate,
+		fmt.Sprintf("%s/config/config.toml", basePath):  templates.ConsumerSampleConfig,
+	}
+
+	for path, tmpl := range files {
+		if err := generateFile(tmpl, data, path); err != nil {
+			return err
+		}
+	}
+
+	logger.AthenaLogger.Infof("Consumer %s generated successfully\nExploring at %s", name, basePath)
+	logger.AthenaLogger.Infof("Create key %s at consul with content from file %s to start consumer",
+		fmt.Sprintf("consumers/%s.toml", name),
+		fmt.Sprintf("%s/config/config.toml", basePath))
 	return nil
 }

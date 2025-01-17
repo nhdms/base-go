@@ -59,6 +59,18 @@ func main() {
 						},
 					},
 					{
+						Name:  "service",
+						Usage: "Generate gRPC service",
+						Action: func(c *cli.Context) error {
+							name := c.Args().First()
+							if name == "" {
+								return fmt.Errorf("name is required")
+							}
+							fmt.Printf("Generating gRPC service: %s\n", name)
+							return generator.GenerateService(name)
+						},
+					},
+					{
 						Name:  "consumer",
 						Usage: "Generate consumer",
 						Action: func(c *cli.Context) error {

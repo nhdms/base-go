@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package exmsg.models;
+
+option go_package = "gitlab.com/a7923/athena-go/proto/exmsg/models;models";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+message Event {
+    int64 id = 1;
+	string type = 2;
+    google.protobuf.Timestamp created_at = 3;
+    google.protobuf.Struct metadata = 4;
+}
