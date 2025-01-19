@@ -1,8 +1,8 @@
 package tests
 
 import (
-	"gitlab.com/a7923/athena-go/pkg/config"
-	"gitlab.com/a7923/athena-go/pkg/utils"
+	"github.com/nhdms/base-go/pkg/config"
+	"github.com/nhdms/base-go/pkg/utils"
 )
 
 func LoadTestConfig() error {

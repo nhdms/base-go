@@ -3,29 +3,29 @@ package templates
 const ServiceMainTemplate = `package main
 
 import (
-    "gitlab.com/a7923/athena-go/cmd/services/{{.Name}}/handlers"
-    "gitlab.com/a7923/athena-go/pkg/app"
-    "gitlab.com/a7923/athena-go/pkg/dbtool"
-    "gitlab.com/a7923/athena-go/pkg/logger"
-    "gitlab.com/a7923/athena-go/proto/exmsg/services"
+    "github.com/nhdms/base-go/cmd/services/{{.Name}}/handlers"
+    "github.com/nhdms/base-go/pkg/app"
+    "github.com/nhdms/base-go/pkg/dbtool"
+    "github.com/nhdms/base-go/pkg/logger"
+    "github.com/nhdms/base-go/proto/exmsg/services"
 )
 
 func main() {
     svc := app.NewGRPCService()
     psql, err := dbtool.NewConnectionManager(dbtool.DBTypePostgreSQL, nil)
     if err != nil {
-        logger.AthenaLogger.Fatal("Failed to connect to database: ", err)
+        logger.DefaultLogger.Fatal("Failed to connect to database: ", err)
     }
 
     grpcSvc := handlers.New{{.Handler}}Handler(psql)
     err = services.Register{{.Handler}}ServiceHandler(svc.Server(), grpcSvc)
     if err != nil {
-        logger.AthenaLogger.Fatal(err)
+        logger.DefaultLogger.Fatal(err)
     }
 
     err = svc.Run()
     if err != nil {
-        logger.AthenaLogger.Fatal(err)
+        logger.DefaultLogger.Fatal(err)
     }
 }`
 
@@ -33,8 +33,8 @@ const ServiceHandlerTemplate = `package handlers
 
 import (
 	"context"
-	"gitlab.com/a7923/athena-go/pkg/dbtool"
-	"gitlab.com/a7923/athena-go/proto/exmsg/services"
+	"github.com/nhdms/base-go/pkg/dbtool"
+	"github.com/nhdms/base-go/proto/exmsg/services"
 )
 
 type EventHandler struct {
@@ -53,7 +53,7 @@ func NewEventHandler(db *dbtool.ConnectionManager) *EventHandler {
 
 const ServiceTableTemplate = `package tables
 
-import "gitlab.com/a7923/athena-go/pkg/dbtool"
+import "github.com/nhdms/base-go/pkg/dbtool"
 
 func Get{{.Handler}}Table() *dbtool.Table {
 	return &dbtool.Table{
@@ -72,9 +72,9 @@ const ServiceHandlerTestTemplate = `package handlers
 import (
     "context"
     "testing"
-    "gitlab.com/a7923/athena-go/pkg/dbtool"
-    "gitlab.com/a7923/athena-go/proto/exmsg/models"
-    "gitlab.com/a7923/athena-go/tests"
+    "github.com/nhdms/base-go/pkg/dbtool"
+    "github.com/nhdms/base-go/proto/exmsg/models"
+    "github.com/nhdms/base-go/tests"
     "google.golang.org/protobuf/types/known/structpb"
     "google.golang.org/protobuf/types/known/timestamppb"
 )

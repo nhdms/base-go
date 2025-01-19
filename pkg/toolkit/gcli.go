@@ -11,7 +11,7 @@ import (
 
 func main() {
 	app := &cli.App{
-		Name:  "atcli",
+		Name:  "gcli",
 		Usage: "A tool to generate various components",
 		Commands: []*cli.Command{
 			{

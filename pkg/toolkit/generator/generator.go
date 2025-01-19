@@ -3,8 +3,8 @@ package generator
 import (
 	"bytes"
 	"fmt"
-	"gitlab.com/a7923/athena-go/pkg/logger"
-	"gitlab.com/a7923/athena-go/pkg/toolkit/templates"
+	"github.com/nhdms/base-go/pkg/logger"
+	"github.com/nhdms/base-go/pkg/toolkit/templates"
 	"os"
 	"path/filepath"
 	"strings"
@@ -77,7 +77,7 @@ func GenerateAPI(name string) error {
 		return err
 	}
 
-	logger.AthenaLogger.Infof("API %s generated successfully\nExploring at %s", name, basePath)
+	logger.DefaultLogger.Infof("API %s generated successfully\nExploring at %s", name, basePath)
 	return nil
 }
 
@@ -124,11 +124,11 @@ func GenerateService(name string) error {
 		}
 	}
 
-	logger.AthenaLogger.Infof("Service %s generated successfully\nExploring at %s", name, basePath)
-	logger.AthenaLogger.Infof("Please add common function GetGRPCServiceClient() at internal/grpc.go")
-	logger.AthenaLogger.Infof("And function define service name at pkg/common/service_name.go")
-	logger.AthenaLogger.Infof("\natcli gen proto proto/models/%s.proto\natcli gen proto proto/services/%s.proto", name, name)
-	logger.AthenaLogger.Info("Run these command to generate proto file")
+	logger.DefaultLogger.Infof("Service %s generated successfully\nExploring at %s", name, basePath)
+	logger.DefaultLogger.Infof("Please add common function GetGRPCServiceClient() at internal/grpc.go")
+	logger.DefaultLogger.Infof("And function define service name at pkg/common/service_name.go")
+	logger.DefaultLogger.Infof("\ngcli gen proto proto/models/%s.proto\ngcli gen proto proto/services/%s.proto", name, name)
+	logger.DefaultLogger.Info("Run these command to generate proto file")
 	return nil
 }
 
@@ -156,8 +156,8 @@ func GenerateConsumer(name string) error {
 		}
 	}
 
-	logger.AthenaLogger.Infof("Consumer %s generated successfully\nExploring at %s", name, basePath)
-	logger.AthenaLogger.Infof("Create key %s at consul with content from file %s to start consumer",
+	logger.DefaultLogger.Infof("Consumer %s generated successfully\nExploring at %s", name, basePath)
+	logger.DefaultLogger.Infof("Create key %s at consul with content from file %s to start consumer",
 		fmt.Sprintf("consumers/%s.toml", name),
 		fmt.Sprintf("%s/config/config.toml", basePath))
 	return nil

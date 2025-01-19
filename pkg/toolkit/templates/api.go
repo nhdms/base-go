@@ -14,15 +14,15 @@ const APICICDTemplate = `{
 const APIMainTemplate = `package main
 
 import (
-    app2 "gitlab.com/a7923/athena-go/cmd/apis/{{.Name}}/app"
-    "gitlab.com/a7923/athena-go/pkg/app"
-    "gitlab.com/a7923/athena-go/pkg/logger"
+    app2 "github.com/nhdms/base-go/cmd/apis/{{.Name}}/app"
+    "github.com/nhdms/base-go/pkg/app"
+    "github.com/nhdms/base-go/pkg/logger"
 )
 
 func main() {
     publisher, err := app.NewPublisher()
     if err != nil {
-        logger.AthenaLogger.Fatal("Start publisher failed", err)
+        logger.DefaultLogger.Fatal("Start publisher failed", err)
     }
     defer publisher.Close()
 
@@ -30,7 +30,7 @@ func main() {
     api := app.NewAPI(s)
     err = api.Run()
     if err != nil {
-        logger.AthenaLogger.Fatal("Start API failed", err)
+        logger.DefaultLogger.Fatal("Start API failed", err)
     }
 }`
 
@@ -39,10 +39,10 @@ const APIWebServerTemplate = `package app
 import (
     "github.com/justinas/alice"
     "github.com/spf13/viper"
-    "gitlab.com/a7923/athena-go/cmd/apis/{{.Name}}/handlers"
-    "gitlab.com/a7923/athena-go/pkg/app"
-    middleware "gitlab.com/a7923/athena-go/pkg/middlewares"
-    transhttp "gitlab.com/a7923/athena-go/pkg/transport"
+    "github.com/nhdms/base-go/cmd/apis/{{.Name}}/handlers"
+    "github.com/nhdms/base-go/pkg/app"
+    middleware "github.com/nhdms/base-go/pkg/middlewares"
+    transhttp "github.com/nhdms/base-go/pkg/transport"
     "go-micro.dev/v5/client"
     "net/http"
 )
@@ -99,9 +99,9 @@ func (s *Server) GetRoutes() transhttp.Routes {
 const APIHandlerTemplate = `package handlers
 
 import (
-    "gitlab.com/a7923/athena-go/pkg/app"
-    "gitlab.com/a7923/athena-go/pkg/logger"
-    transhttp "gitlab.com/a7923/athena-go/pkg/transport"
+    "github.com/nhdms/base-go/pkg/app"
+    "github.com/nhdms/base-go/pkg/logger"
+    transhttp "github.com/nhdms/base-go/pkg/transport"
     "io"
     "net/http"
     "time"
@@ -114,7 +114,7 @@ type {{.Handler}}Handler struct {
 func (h *{{.Handler}}Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     start := time.Now()
     defer func() {
-        logger.AthenaLogger.Debugw("Processed request", "url", r.URL.Path, "took", time.Since(start).Milliseconds())
+        logger.DefaultLogger.Debugw("Processed request", "url", r.URL.Path, "took", time.Since(start).Milliseconds())
     }()
 
     requestBody, err := io.ReadAll(r.Body)
@@ -123,7 +123,7 @@ func (h *{{.Handler}}Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) 
         return
     }
 
-    logger.AthenaLogger.Debugw("published request", "url", r.URL.Path,"body", string(requestBody), "took", time.Since(start).Milliseconds())
+    logger.DefaultLogger.Debugw("published request", "url", r.URL.Path,"body", string(requestBody), "took", time.Since(start).Milliseconds())
 
     transhttp.RespondJSON(w, http.StatusOK, map[string]interface{}{
         "success": time.Now().UnixNano(),

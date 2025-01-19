@@ -3,9 +3,9 @@ package templates
 const ConsumerMainTemplate = `package main
 
 import (
-    "gitlab.com/a7923/athena-go/cmd/consumers/{{.Name}}/handlers"
-    "gitlab.com/a7923/athena-go/pkg/app"
-    "gitlab.com/a7923/athena-go/pkg/logger"
+    "github.com/nhdms/base-go/cmd/consumers/{{.Name}}/handlers"
+    "github.com/nhdms/base-go/pkg/app"
+    "github.com/nhdms/base-go/pkg/logger"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 
     err := app.StartNewConsumer({{.ServiceName}}Handler)
     if err != nil {
-        logger.AthenaLogger.Fatal("Failed to start consumer: ", err)
+        logger.DefaultLogger.Fatal("Failed to start consumer: ", err)
     }
 }`
 
@@ -23,10 +23,10 @@ const ConsumerHandlerTemplate = `package handlers
 
 import (
 	"github.com/ThreeDotsLabs/watermill/message"
-	"gitlab.com/a7923/athena-go/internal"
-    "gitlab.com/a7923/athena-go/pkg/app"
-    "gitlab.com/a7923/athena-go/proto/exmsg/services"
-	"gitlab.com/a7923/athena-go/pkg/logger"
+	"github.com/nhdms/base-go/internal"
+    "github.com/nhdms/base-go/pkg/app"
+    "github.com/nhdms/base-go/proto/exmsg/services"
+	"github.com/nhdms/base-go/pkg/logger"
 )
 
 type {{.Handler}}Handler struct {
@@ -45,7 +45,7 @@ func (h *{{.Handler}}Handler) Init() error {
 }
 
 func (h *{{.Handler}}Handler) HandleMessage(msg *message.Message) error {
-	logger.AthenaLogger.Debugw("Received ", "message", string(msg.Payload))
+	logger.DefaultLogger.Debugw("Received ", "message", string(msg.Payload))
     return nil
 }
 

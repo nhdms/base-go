@@ -103,28 +103,28 @@ Or you can use Docker for testing and deploying the application.
 - Install Redis for caching and storing session data.
 - Install Posgres for database.
 
-### 2. Generate services using atcli
-- Install atcli tools
+### 2. Generate services using gcli
+- Install gcli tools
 ```shell
-go install pkg/toolkit/atcli.go
+go install pkg/toolkit/gcli.go
 ```
-- Generate api using atcli
+- Generate api using gcli
 ```shell
-atcli generate api <api-name>
+gcli generate api <api-name>
 # example:
-# atcli generate api user-api
+# gcli generate api user-api
 ```
-- Generate consumer using atcli
+- Generate consumer using gcli
 ```shell
-atcli generate consumer <consumer-name>
+gcli generate consumer <consumer-name>
 # example:
-# atcli generate consumer sample-consumer
+# gcli generate consumer sample-consumer
 ```
-- Generate grpc service using atcli
+- Generate grpc service using gcli
 ```shell
-atcli generate service <service-name>
+gcli generate service <service-name>
 # example:
-# atcli generate service sample-service
+# gcli generate service sample-service
 ```
 
 #### 2. Docker for Testing and Deploying
@@ -144,13 +144,13 @@ docker run -e CONSUL_ADDRESS=host.docker.internal:8500 -p 30000:30000 user-api
 
 ## Generate proto file
 - cd to root directory of the project and run the following command:
-- install atcli tools
+- install gcli tools
  ```shell
-  go install pkg/toolkit/atcli.go
+  go install pkg/toolkit/gcli.go
  ```
 ### for models/entities
 ```shell
- atcli gen proto proto/models/jwt.proto #path to proto file from root dir 
+ gcli gen proto proto/models/jwt.proto #path to proto file from root dir 
 ```
 or
 ```shell
@@ -164,7 +164,7 @@ protoc \
 
 ### for grpc services
 ```shell
- atcli gen proto proto/services/users.proto #path to proto file from root dir 
+ gcli gen proto proto/services/users.proto #path to proto file from root dir 
 ```
 or 
 ```shell

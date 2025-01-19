@@ -4,7 +4,7 @@ const ModelProtoTemplate = `syntax = "proto3";
 
 package exmsg.models;
 
-option go_package = "gitlab.com/a7923/athena-go/proto/exmsg/models;models";
+option go_package = "github.com/nhdms/base-go/proto/exmsg/models;models";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
 
@@ -20,7 +20,7 @@ const ServiceProtoTemplate = `syntax = "proto3";
 
 package exmsg.services;
 
-option go_package = "gitlab.com/a7923/athena-go/proto/exmsg/services;services";
+option go_package = "github.com/nhdms/base-go/proto/exmsg/services;services";
 
 import "models/{{.ServiceName}}.proto";
 import "models/common.proto";
