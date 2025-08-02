@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package exmsg.models;
+import "google/protobuf/struct.proto";
+
+option go_package = "github.com/nhdms/base-go/proto/exmsg/models;models";
+
+enum CommonStatus {
+  DEACTIVATED = 0;
+  ACTIVATED = 1;
+}
+
+message Query {
+  uint64 limit = 1;
+  uint64 page = 2;
+  string filter = 3;
+  repeated string sort_by = 4;
+  bool descending = 5;
+}
+
+message SQLResult {
+  repeated int64 last_insert_ids = 1;
+  int64 rows_affected = 2;
+}
+
+message Row {
+  bytes values = 1;
+}
+
+enum Operator {
+  EQ = 0;
+  NEQ = 1;
+  GT = 2;
+  LT = 3;
+  GTE = 4;
+  LTE = 5;
+  IN = 6;
+  LIKE = 7;
+  NOT_LIKE = 8;
+  IS_NULL = 9;
+  IS_NOT_NULL = 10;
+  NOT_IN = 11;
+  BETWEEN = 12;
+}
+
+message Condition {
+  string field = 1;
+  Operator operator = 2;
+  google.protobuf.Value args = 3;
+  string expr = 4;
+}

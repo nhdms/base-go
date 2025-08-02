@@ -1,0 +1,13 @@
+{
+  "app_type": "consumer",
+  "cmd_bin_dir": "cmd/consumers/data-replica/binlog-consumer",
+  "service_name": "binlog",
+  "port": 0,
+  "config_remote_keys": [
+    "database/redis.toml",
+    "database/rabbitmq.toml",
+    "database/postgres.toml",
+    "database/postgres_replication.toml",
+    "consumers/data-replica/binlog_consumer.toml"
+  ]
+}

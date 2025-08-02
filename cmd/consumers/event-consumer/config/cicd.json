@@ -1,0 +1,11 @@
+{
+    "app_type": "consumer",
+    "cmd_bin_dir": "cmd/consumers/event-consumer",
+    "service_name": "event",
+    "port": 0,
+    "config_remote_keys": [
+        "database/redis.toml",
+        "database/rabbitmq.toml",
+        "consumers/event-consumer.toml"
+    ]
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package exmsg.models;
+import "google/protobuf/struct.proto";
+
+option go_package = "github.com/nhdms/base-go/proto/exmsg/models;models";
+
+message User {
+  int64 id = 1;
+  string name = 2;
+  string email = 3;
+  string password = 4;
+  string phone = 5;
+  string avatar = 6;
+  int64 deleted_at = 7;
+  int64 status = 8;
+  int64 type = 10;
+}

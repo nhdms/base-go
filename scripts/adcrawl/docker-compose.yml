@@ -1,0 +1,56 @@
+services:
+  postgres_db:
+    image: postgres:17-alpine
+    env_file:
+      - ../.env
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      PGUSER: "${PGUSER}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - backend
+  rmq_task_queue:
+    image: rabbitmq:management
+    container_name: rmq_task_queue
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: always
+    volumes:
+      - rmq_task_queue_data:/var/lib/rabbitmq
+
+  redis_task_queue:
+    image: redis:8.0-M03-alpine
+    container_name: redis_task_queue
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      - backend
+
+  task_queue_monitor:
+    image: hibiken/asynqmon
+    container_name: asynqmon
+    ports:
+      - "8080:8080"
+    environment:
+      REDIS_URL: "redis://redis_task_queue:6379"
+    networks:
+      - backend
+
+
+volumes:
+  postgres_data:
+  rmq_task_queue_data:
+  redis_data:
+    driver: local
+
+networks:
+  backend:

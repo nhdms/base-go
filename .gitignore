@@ -1,0 +1,3 @@
+.idea
+tests/config/config.toml
+internal/adcrawl/repository/postgres_token_test.go
