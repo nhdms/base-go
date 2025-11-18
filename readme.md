@@ -1,3 +1,5 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nhdms/base-go)
+
 ## Prerequisites Installation
 
 To set up the development environment for this project, ensure the following tools are installed:
