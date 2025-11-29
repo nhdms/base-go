@@ -1,10 +1,19 @@
 package pglogicalstream
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 const (
 	TlsNoVerify      = "none"
 	TlsRequireVerify = "require"
+
+	// Default values for recovery and heartbeat
+	DefaultHeartbeatInterval       = 10 * time.Second
+	DefaultMaxRetries              = 3
+	DefaultRetryDelay              = 5 * time.Second
+	DefaultSlotInvalidAutoRecreate = true
 )
 
 type Config struct {
@@ -24,6 +33,12 @@ type Config struct {
 	AutoAck                    bool     `mapstructure:"auto_ack"`
 	LastLsn                    string   `mapstructure:"last_lsn"`
 	SnapshotOffset             int64    `mapstructure:"snapshot_offset"`
+
+	// New configuration options for error recovery
+	HeartbeatInterval       time.Duration `mapstructure:"heartbeat_interval"`         // Interval for sending standby status updates
+	MaxRetries              int           `mapstructure:"max_retries"`                // Max retries for recoverable errors
+	RetryDelay              time.Duration `mapstructure:"retry_delay"`                // Delay between retries
+	SlotInvalidAutoRecreate bool          `mapstructure:"slot_invalid_auto_recreate"` // Auto-recreate slot on SQLSTATE 55000
 }
 
 func (c *Config) InitDefaultAndValidate() error {
@@ -58,6 +73,20 @@ func (c *Config) InitDefaultAndValidate() error {
 	if len(c.TlsVerify) == 0 {
 		c.TlsVerify = TlsNoVerify
 	}
+
+	// Set defaults for recovery options
+	if c.HeartbeatInterval == 0 {
+		c.HeartbeatInterval = DefaultHeartbeatInterval
+	}
+	if c.MaxRetries == 0 {
+		c.MaxRetries = DefaultMaxRetries
+	}
+	if c.RetryDelay == 0 {
+		c.RetryDelay = DefaultRetryDelay
+	}
+	// Note: SlotInvalidAutoRecreate defaults to false (zero value)
+	// but we want it to default to true for safety
+	// This is handled in NewPgStream
 
 	return nil
 }
